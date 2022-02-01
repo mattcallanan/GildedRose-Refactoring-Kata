@@ -1,4 +1,6 @@
-package com.gildedrose;
+package com.gildedrose.strategywithstages;
+
+import com.gildedrose.Item;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -13,6 +15,7 @@ class GildedRoseTest {
     public static final String BACKSTAGE = "Backstage passes to a TAFKAL80ETC concert";
     public static final String SULFURAS = "Sulfuras, Hand of Ragnaros";
     public static final String OTHER = "Any other item";
+    private static final String CONJURED = "Conjured";
 
     private static Stream<Arguments> provideDataForTests() {
         return Stream.of(
@@ -31,6 +34,12 @@ class GildedRoseTest {
             Arguments.of( new Item( BACKSTAGE, 1, 11 ), new Item( BACKSTAGE, 0, 14) ),
             Arguments.of( new Item( BACKSTAGE, 0, 11 ), new Item( BACKSTAGE, -1, 0) ),
             Arguments.of( new Item( BACKSTAGE, -1, 11 ), new Item( BACKSTAGE, -2, 0) ),
+            // 	- "Conjured" items degrade in Quality twice as fast as normal items
+            Arguments.of( new Item( CONJURED, 10, 10 ), new Item( CONJURED, 9, 8) ),
+            Arguments.of( new Item( CONJURED, 10, 0 ), new Item( CONJURED, 9, 0) ),
+            Arguments.of( new Item( CONJURED, 0, 0 ), new Item( CONJURED, -1, 0) ),
+            Arguments.of( new Item( CONJURED, -1, 10 ), new Item( CONJURED, -2, 6) ),
+            Arguments.of( new Item( CONJURED, -1, 0 ), new Item( CONJURED, -2, 0) ),
             Arguments.of( new Item( OTHER, 10, 10 ), new Item( OTHER, 9, 9) ),
             Arguments.of( new Item( OTHER, 10, 0 ), new Item( OTHER, 9, 0) ),
             Arguments.of( new Item( OTHER, 0, 0 ), new Item( OTHER, -1, 0) ),
